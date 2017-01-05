@@ -23,6 +23,8 @@ $hotmart_first_name = $_POST['first_name'];
 $hotmart_last_name  = $_POST['last_name'];
 $hotmart_mail       = $_POST['email'];
 $hotmart_prod       = $_POST['prod'];
+$hotmart_phone_code = $_POST['phone_local_code'];
+$hotmart_phone_num  = $_POST['phone_number'];
 
 foreach ($_POST as $key => $value) {
   $$key = $value;
@@ -33,6 +35,8 @@ log_message('*** Requisição Hotmautic ***');
 log_message("Nome: $hotmart_first_name");
 log_message("Sobrenome: $hotmart_last_name");
 log_message("E-mail: $hotmart_mail");
+log_message("DDD: $hotmart_phone_code");
+log_message("Telefone: $hotmart_phone_num");
 log_message("Produto: $hotmart_prod");
 log_message("Status: $status");
 
@@ -46,7 +50,9 @@ if ($hottok == $hotmart_token && ($hotmart_prod == $hotmart_id_prod) || ($hotmar
                 $hotmart_mail,
                 $hotmart_first_name,
                 $hotmart_last_name,
-                $hotmart_prod);
+                $hotmart_prod,
+                $hotmart_phone_code,
+                $hotmart_phone_num);
       break;
 
     case 'approved':
@@ -56,7 +62,9 @@ if ($hottok == $hotmart_token && ($hotmart_prod == $hotmart_id_prod) || ($hotmar
                 $hotmart_mail,
                 $hotmart_first_name,
                 $hotmart_last_name,
-                $hotmart_prod);
+                $hotmart_prod,
+                $hotmart_phone_code,
+                $hotmart_phone_num);
       break;
 
     case 'refunded':
@@ -68,7 +76,9 @@ if ($hottok == $hotmart_token && ($hotmart_prod == $hotmart_id_prod) || ($hotmar
                 $hotmart_mail,
                 $hotmart_first_name,
                 $hotmart_last_name,
-                $hotmart_prod);
+                $hotmart_prod,
+                $hotmart_phone_code,
+                $hotmart_phone_num);
       break;
 
     default:
@@ -81,10 +91,11 @@ else
   log_message("Chamada inválida - Acesso não liberado");
 }
 
-function post_form($base_url, $form_name, $form_id, $email, $first_name, $last_name, $prod) {
+function post_form($base_url, $form_name, $form_id, $email, $first_name, $last_name, $prod, $phone_code, $phone_number) {
   $content = http_build_query(array('mauticform[email]'     => $email,
                                     'mauticform[nome]'      => $first_name,
                                     'mauticform[sobrenome]' => $last_name,
+                                    'mauticform[telefone]'  => "$phone_code+$phone_number",
                                     'mauticform[idprod]'    => $prod,
                                     'mauticform[formId]'    => $form_id,
                                     'mauticform[return]'    => '',
